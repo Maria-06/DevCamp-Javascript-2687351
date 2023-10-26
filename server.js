@@ -1,10 +1,25 @@
 //Dependencia Commonjs
+const express = require ('express')
+const dotenv = require('dotenv')
+const colors = require('colors')
 
-const express = require('express')
+//Dependencias de rutas 
+const bootcampsRoutes = require('./routes/BootcampRoutes')
+
+//Establecer archivo .env del proyecto
+dotenv.config({
+    path: './config/.env'
+})
 
 //Crear el Objeto app
 const app = express();
 
+//Adaptar a express para recibir datod Json
+app.use(express.json)
+
+
+//Vincular las rutas de bootcamps
+app.use('/api/v1/devcamps/bootcamps', bootcampsRoutes)
 //Primera prueba url del servidor
 app.get('/prueba', 
         function(request, response){
@@ -253,3 +268,10 @@ const PUERTO = 5000
 //crear Servidor
 app.listen(PUERTO,
     console.log("Servidor escuchando en el puerto:" +PUERTO))
+
+//Establecer un servidor
+const puerto = process.env.EXPRESS_PORT
+
+app.listen(puerto,
+    console.log(`Ya se prendió el server ${puerto}`,bgBlue.white))
+
